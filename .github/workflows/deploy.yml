@@ -39,6 +39,12 @@ jobs:
         run: |
           cd package
           zip -rq ../function.zip .
+      - name: Diagnóstico GitHub
+        run: |
+            echo "Repository: $GITHUB_REPOSITORY"
+            echo "Ref: $GITHUB_REF"
+            echo "Event: $GITHUB_EVENT_NAME"
+            echo "Actor: $GITHUB_ACTOR"
 
       - name: Configurar credenciais AWS
         uses: aws-actions/configure-aws-credentials@v4
