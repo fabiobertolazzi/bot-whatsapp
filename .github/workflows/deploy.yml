@@ -1,0 +1,53 @@
+name: Deploy Lambda
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Instalar dependências de produção
+        run: |
+          rm -rf package
+          mkdir package
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -t package
+
+      - name: Copiar código
+        run: |
+          cp -R src package/
+
+      - name: Gerar ZIP
+        run: |
+          cd package
+          zip -rq ../function.zip .
+
+      - name: Configurar credenciais AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::065560086735:role/GitHubActionsLambdaDeployRole
+          aws-region: sa-east-1
+
+      - name: Deploy Lambda
+        run: |
+          aws lambda update-function-code \
+            --function-name bot-whatsapp \
+            --zip-file fileb://function.zip

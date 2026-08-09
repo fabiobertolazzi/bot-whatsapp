@@ -1,21 +1,21 @@
 #!/bin/bash
 
-set -e
+#set -e
 
-echo "Limpando..."
-rm -rf package function.zip
+#echo "Limpando..."
+#rm -rf package function.zip
 
-mkdir package
+#mkdir package
 
-echo "Instalando dependências..."
-python3 -m pip install -r requirements.txt -t package
+#echo "Instalando dependências..."
+#python3 -m pip install -r requirements.txt -t package
 
-echo "Copiando código..."
-cp -R src package/
+#echo "Copiando código..."
+#cp -R src package/
 
-echo "Gerando ZIP..."
-cd package
-zip -rq ../function.zip .
-cd ..
+#echo "Gerando ZIP..."
+#cd package
+#zip -rq ../function.zip .
+#cd ..
 
-echo "Concluído!"
+#echo "Concluído!"
