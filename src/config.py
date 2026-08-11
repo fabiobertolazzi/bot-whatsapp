@@ -6,7 +6,7 @@ REGION_NAME = os.getenv("REGION_NAME", "sa-east-1")
 
 # ── Google Sheets ────────────────────────────────────────────────────────────
 SPREADSHEET_ID = os.getenv(
-    "SPREADSHEET_ID", "1Gb1I3lt4k6NQKJX3Og3YjgHBCskX0N_yK06CAxqaAnc"
+    "SPREADSHEET_ID", "1Gb1I3lt4p6NQKJX3Og3YjgHBCskX0N_yK06CAxqaAnc" 
 )
 
 GOOGLE_SCOPES = [
