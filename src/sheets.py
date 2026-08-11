@@ -24,6 +24,11 @@ def get_sheet_records(spreadsheet_id: str = SPREADSHEET_ID) -> list[dict]:
     """
     credentials = get_google_credentials()
     gc = gspread.authorize(credentials)
+
+    print(f"Spreadsheet ID: {spreadsheet_id}")
+    print(f"Google service account: {credentials_info.get('client_email')}")
+
+
     spreadsheet = gc.open_by_key(spreadsheet_id)
     worksheet = spreadsheet.sheet1
     return worksheet.get_all_records()
