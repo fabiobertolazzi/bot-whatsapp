@@ -64,13 +64,20 @@ def lambda_handler(event, context):
     data_finan = get_sheet_records(SPREADSHEET_ID_FINAN)
     results = []
 
+    contador = 1
     for row in data_finan:
-        nome = row.get("Data")
-        mensagem = mensagem_financeira(data_finan)
-        
-    results.append({"Data": nome})
-    send_whatsapp(OWNER_PHONE, mensagem[4096])  # Limite de caracteres do WhatsApp
+        data = row.get("Data")
+        mensagem = mensagem_financeira(data)
 
+        if contador == 10:
+            send_whatsapp(OWNER_PHONE, mensagem)
+        contador += 1
+
+
+        #send_whatsapp(OWNER_PHONE, mensagem)
+        
+    results.append({"Data": data})
+    
 
     return {
         "statusCode": 200,
