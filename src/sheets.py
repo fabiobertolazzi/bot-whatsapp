@@ -2,7 +2,7 @@ import gspread
 
 from google.oauth2.service_account import Credentials
 
-from src.config import GOOGLE_SCOPES, SPREADSHEET_ID
+from src.config import (GOOGLE_SCOPES, SPREADSHEET_ID_MOTORA, SPREADSHEET_ID_FINAN)
 from src.secrets import get_secret
 
 
@@ -22,7 +22,8 @@ def get_google_credentials() -> Credentials:
     )
 
 
-def get_sheet_records(spreadsheet_id: str = SPREADSHEET_ID) -> list[dict]:
+#def get_sheet_records(spreadsheet_id: str = SPREADSHEET_ID) -> list[dict]:
+def get_sheet_records(spreadsheet_id: str) -> list[dict]:
     """
     Abre a planilha pelo ID e retorna todos os registros da primeira aba.
 

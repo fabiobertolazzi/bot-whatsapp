@@ -7,7 +7,7 @@ from src.messages import (
     mensagem_checklist_segunda,
     mensagem_cobranca,
 )
-from src.sheets import format_phone, get_sheet_records
+from src.sheets import format_phone, get_sheet_records, SPREADSHEET_ID_MOTORA
 from src.whatsapp import send_whatsapp
 
 
@@ -32,7 +32,7 @@ def lambda_handler(event, context):
         enviou_algo = True
 
     # ── 2. Cobranças do dia ──────────────────────────────────────────────────
-    data = get_sheet_records()
+    data = get_sheet_records(SPREADSHEET_ID_MOTORA)
     results = []
 
     for row in data:
@@ -60,3 +60,6 @@ def lambda_handler(event, context):
         "statusCode": 200,
         "body": json.dumps({"dia": hoje, "processados": results}),
     }
+
+#data_motora = get_sheet_records(SPREADSHEET_ID_MOTORA)
+#data_finan = get_sheet_records(SPREADSHEET_ID_FINAN)
