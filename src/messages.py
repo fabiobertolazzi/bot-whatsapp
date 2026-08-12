@@ -26,10 +26,16 @@ def mensagem_cobranca(nome: str) -> str:
         "Obrigado e tenha uma ótima semana! 🙌"
     )
 
-def mensagem_financeira(data: str) -> str:
+def mensagem_financeira(data: str, id: str, categoria: str, situacao: str, valor: str) -> str:
     """Mensagem de informações financeiras enviada no dia."""
     return (
-        f"🚗 Olá *{data}*, bom dia!!!\n\n"
+        "Bom dia!!!\n\n"
+        "Vencimento para hoje:\n\n"
+        f"Data: {data}\n"
+        f"ID: {id}\n"
+        f"Categoria: {categoria}\n"
+        f"Situação: {situacao}\n"
+        f"Valor: {valor}\n"
     )
 
 def mensagem_bot_ativo() -> str:
