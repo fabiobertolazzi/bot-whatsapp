@@ -6,6 +6,7 @@ from src.messages import (
     mensagem_bot_ativo,
     mensagem_checklist_segunda,
     mensagem_cobranca,
+    mensagem_financeira
 )
 from src.sheets import format_phone, get_sheet_records, SPREADSHEET_ID_MOTORA, SPREADSHEET_ID_FINAN
 from src.whatsapp import send_whatsapp
@@ -65,6 +66,7 @@ def lambda_handler(event, context):
 
     for row in data_finan:
         nome = row.get("Data")
+        mensagem = mensagem_financeira(data_finan)
     results.append({"Data": data_finan})
 
     return {
