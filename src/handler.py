@@ -63,18 +63,18 @@ def lambda_handler(event, context):
     # ── 4. Financeiro do dia ──────────────────────────────────────────────────
     data_finan = get_sheet_records(SPREADSHEET_ID_FINAN)
     results = []
-
-    contador = 1
+    
     for row in data_finan:
         data = row.get("Data")
-        mensagem = mensagem_financeira(data)
+        if data == datetime.now().strftime("%d/%m/%Y"):
+            data = row.get("Data")
+            id = row.get("ID")
+            categoria = row.get("Categoria")
+            situacao = row.get("Situação")
+            valor = row.get("Valor")
 
-        if contador == 10:
+            mensagem = mensagem_financeira(data, id, categoria, situacao, valor)
             send_whatsapp(OWNER_PHONE, mensagem)
-        contador += 1
-
-
-        #send_whatsapp(OWNER_PHONE, mensagem)
         
     results.append({"Data": data})
     
