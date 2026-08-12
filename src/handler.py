@@ -7,7 +7,7 @@ from src.messages import (
     mensagem_checklist_segunda,
     mensagem_cobranca,
 )
-from src.sheets import format_phone, get_sheet_records, SPREADSHEET_ID_MOTORA
+from src.sheets import format_phone, get_sheet_records, SPREADSHEET_ID_MOTORA, SPREADSHEET_ID_FINAN
 from src.whatsapp import send_whatsapp
 
 
