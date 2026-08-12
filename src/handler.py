@@ -55,8 +55,8 @@ def lambda_handler(event, context):
         results.append({"phone": phone, "nome": nome, "status": status})
 
     # ── 3. Heartbeat (nenhum envio no dia) ───────────────────────────────────
-    if not enviou_algo:
-        send_whatsapp(OWNER_PHONE, mensagem_bot_ativo())
+    #if not enviou_algo:
+    #    send_whatsapp(OWNER_PHONE, mensagem_bot_ativo())
 
 
 
