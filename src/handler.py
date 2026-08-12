@@ -68,7 +68,7 @@ def lambda_handler(event, context):
         nome = row.get("Data")
         mensagem = mensagem_financeira(data_finan)
         send_whatsapp(OWNER_PHONE, mensagem)
-    results.append({"Data": data_finan})
+    results.append({"Data": nome})
 
     return {
         "statusCode": 200,
