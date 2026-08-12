@@ -69,7 +69,8 @@ def lambda_handler(event, context):
         mensagem = mensagem_financeira(data_finan)
         
     results.append({"Data": nome})
-    send_whatsapp(OWNER_PHONE, mensagem)
+    send_whatsapp(OWNER_PHONE, mensagem[4096])  # Limite de caracteres do WhatsApp
+
 
     return {
         "statusCode": 200,
