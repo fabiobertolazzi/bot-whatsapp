@@ -67,6 +67,7 @@ def lambda_handler(event, context):
     for row in data_finan:
         nome = row.get("Data")
         mensagem = mensagem_financeira(data_finan)
+        send_whatsapp(OWNER_PHONE, mensagem)
     results.append({"Data": data_finan})
 
     return {
