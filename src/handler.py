@@ -90,6 +90,9 @@ def lambda_handler(event, context):
     data_hoje = datetime.now().strftime("%d/%m/%Y")
     
     for row in saldo_dia:
+        print('repr:', repr(row.get('Valor'))) 
+        print('type:', type(row.get('Valor'))) 
+        print('format:', src.utils.format_currency(row.get('Valor')))
         valor = src.utils.format_currency(row.get("Valor"))
 
         mensagem = mensagem_saldo(data_hoje, valor)
