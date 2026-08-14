@@ -21,11 +21,9 @@ def get_google_credentials() -> Credentials:
         scopes=GOOGLE_SCOPES
     )
 
-
-#def get_sheet_records(spreadsheet_id: str = SPREADSHEET_ID) -> list[dict]:
-def get_sheet_records(spreadsheet_id: str) -> list[dict]:
+def get_sheet_records(spreadsheet_id: str, worksheet_name: str) -> list[dict]:
     """
-    Abre a planilha pelo ID e retorna todos os registros da primeira aba.
+    Abre a planilha pelo ID e retorna todos os registros da aba especificada.
 
     Retorno:
         Lista de dicionários com os dados de cada linha.
@@ -37,7 +35,7 @@ def get_sheet_records(spreadsheet_id: str) -> list[dict]:
     print(f"Spreadsheet ID: {spreadsheet_id}")
 
     spreadsheet = gc.open_by_key(spreadsheet_id)
-    worksheet = spreadsheet.sheet1
+    worksheet = spreadsheet.worksheet(worksheet_name)
 
     return worksheet.get_all_records()
 

@@ -26,16 +26,26 @@ def mensagem_cobranca(nome: str) -> str:
         "Obrigado e tenha uma ótima semana! 🙌"
     )
 
-def mensagem_financeira(data: str, id: str, categoria: str, situacao: str, valor: str) -> str:
+def mensagem_vencimento_dia(data: str, id: str, categoria: str, situacao: str, valor: str) -> str:
     """Mensagem de informações financeiras enviada no dia."""
     return (
-        "Bom dia!!!\n\n"
-        "Vencimento para hoje:\n\n"
+        "☀️ Bom dia empreendedores ☀️\n"
+        "📅 Hoje temos pagamentos a realizar:\n\n"
         f"Data: {data}\n"
         f"ID: {id}\n"
         f"Categoria: {categoria}\n"
         f"Situação: {situacao}\n"
         f"Valor: {valor}\n"
+        "📌 Ao pagar o boleto, dar baixa na planilha e enviar o comprovante para o grupo de WhatsApp da frota.\n\n"
+    )
+
+
+def mensagem_saldo(data: str, valor: str) -> str:
+    """Mensagem de saldo do dia."""
+    return (
+        "☀️ Bom dia empreendedores ☀️\n"
+        f"💰 O saldo da nossa empresa em {data} é de {valor}.\n"
+        "Vamos em frente!!!\n\n"
     )
 
 def mensagem_bot_ativo() -> str:

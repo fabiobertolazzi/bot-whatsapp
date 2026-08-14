@@ -6,7 +6,8 @@ from src.messages import (
     mensagem_bot_ativo,
     mensagem_checklist_segunda,
     mensagem_cobranca,
-    mensagem_financeira
+    mensagem_vencimento_dia,
+    mensagem_saldo
 )
 from src.sheets import format_phone, get_sheet_records, SPREADSHEET_ID_MOTORA, SPREADSHEET_ID_FINAN
 from src.whatsapp import send_whatsapp
@@ -34,7 +35,7 @@ def lambda_handler(event, context):
         enviou_algo = True
 
     # ── 2. Cobranças do dia ──────────────────────────────────────────────────
-    data_motora = get_sheet_records(SPREADSHEET_ID_MOTORA)
+    data_motora = get_sheet_records(SPREADSHEET_ID_MOTORA,"Sheet1")
     results = []
 
     for row in data_motora:
@@ -61,23 +62,38 @@ def lambda_handler(event, context):
 
 
     # ── 4. Financeiro do dia ──────────────────────────────────────────────────
-    data_finan = get_sheet_records(SPREADSHEET_ID_FINAN)
+    data_finan = get_sheet_records(SPREADSHEET_ID_FINAN,"Sheet1")
     results = []
+
+    data_hoje = datetime.now().strftime("%d/%m/%Y")
     
     for row in data_finan:
-        data = row.get("Data")
-        if data == datetime.now().strftime("%d/%m/%Y"):
+        if data == data_hoje and row.get("Categoria") != "Aluguel":
             data = row.get("Data")
             id = row.get("ID")
             categoria = row.get("Categoria")
             situacao = row.get("Situação")
             valor = row.get("Valor")
 
-            mensagem = mensagem_financeira(data, id, categoria, situacao, valor)
+            mensagem = mensagem_vencimento_dia(data, id, categoria, situacao, valor)
             send_whatsapp(OWNER_PHONE, mensagem)
         
-    results.append({"Data": data})
+        results.append({"Data": data})
+
+    # ── 5. Saldo do dia ──────────────────────────────────────────────────
+    saldo_dia = get_sheet_records(SPREADSHEET_ID_FINAN,"Saldo")
+    results = []
+
+    data_hoje = datetime.now().strftime("%d/%m/%Y")
     
+    for row in saldo_dia:
+        valor = row.get("Valor")
+
+        mensagem = mensagem_saldo(data, valor)
+        send_whatsapp(OWNER_PHONE, mensagem)
+        
+        results.append({"Data": data})
+
 
     return {
         "statusCode": 200,
