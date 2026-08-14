@@ -88,7 +88,7 @@ def lambda_handler(event, context):
     data_hoje = datetime.now().strftime("%d/%m/%Y")
     
     for row in saldo_dia:
-        valor = row.get("Valor")
+        valor = format(row.get("Valor"), ".2f")
 
         mensagem = mensagem_saldo(data_hoje, valor)
         send_whatsapp(OWNER_PHONE, mensagem)
