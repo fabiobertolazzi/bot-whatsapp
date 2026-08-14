@@ -12,7 +12,10 @@ def format_currency(value) -> str:
         return "R$ 0,00"
 
     # Normalizar tipos numéricos diretamente
-    if isinstance(value, (int, float)):
+    # Tratar inteiros como centavos (valor vindo da planilha como 164611 -> R$ 1.646,11)
+    if isinstance(value, int):
+        num = float(value) / 100.0
+    elif isinstance(value, float):
         num = float(value)
     else:
         s = str(value).strip()
