@@ -79,7 +79,8 @@ def lambda_handler(event, context):
             print('repr:', repr(row.get('Valor'))) 
             print('type:', type(row.get('Valor'))) 
             print('format:', src.utils.format_currency(row.get('Valor')))
-            valor = src.utils.format_currency(row.get("Valor"))
+            #valor = src.utils.format_currency(row.get("Valor"))
+            valor = row.get("Valor")
 
             mensagem = mensagem_vencimento_dia(data, id, categoria, situacao, valor)
             send_whatsapp(OWNER_PHONE, mensagem)
