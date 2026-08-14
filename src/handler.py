@@ -100,6 +100,3 @@ def lambda_handler(event, context):
         "statusCode": 200,
         "body": json.dumps({"dia": hoje, "processados": results}),
     }
-
-#data_motora = get_sheet_records(SPREADSHEET_ID_MOTORA)
-#data_finan = get_sheet_records(SPREADSHEET_ID_FINAN)
