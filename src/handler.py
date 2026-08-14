@@ -76,6 +76,9 @@ def lambda_handler(event, context):
             id = row.get("ID")
             categoria = row.get("Categoria")
             situacao = row.get("Situação")
+            print('repr:', repr(row.get('Valor'))) 
+            print('type:', type(row.get('Valor'))) 
+            print('format:', src.utils.format_currency(row.get('Valor')))
             valor = src.utils.format_currency(row.get("Valor"))
 
             mensagem = mensagem_vencimento_dia(data, id, categoria, situacao, valor)
