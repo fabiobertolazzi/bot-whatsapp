@@ -90,7 +90,7 @@ def lambda_handler(event, context):
     for row in saldo_dia:
         valor = row.get("Valor")
 
-        mensagem = mensagem_saldo(data, valor)
+        mensagem = mensagem_saldo(data_hoje, valor)
         send_whatsapp(OWNER_PHONE, mensagem)
         
         results.append({"Data": data})
