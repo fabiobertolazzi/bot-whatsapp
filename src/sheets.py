@@ -32,7 +32,7 @@ def get_sheet_records(spreadsheet_id: str, worksheet_name: str) -> list[dict]:
     credentials = get_google_credentials()
     gc = gspread.authorize(credentials)
 
-    print(f"Spreadsheet ID: {spreadsheet_id}")
+    print(f"Spreadsheet ID: {spreadsheet_id}, Worksheet: {worksheet_name}")
 
     spreadsheet = gc.open_by_key(spreadsheet_id)
     worksheet = spreadsheet.worksheet(worksheet_name)
