@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 
-import utils
+import src.utils
 
 from src.config import DIAS_SEMANA, OWNER_PHONE
 from src.messages import (
@@ -76,7 +76,7 @@ def lambda_handler(event, context):
             id = row.get("ID")
             categoria = row.get("Categoria")
             situacao = row.get("Situação")
-            valor = utils.format_currency(row.get("Valor"))
+            valor = src.utils.format_currency(row.get("Valor"))
 
             mensagem = mensagem_vencimento_dia(data, id, categoria, situacao, valor)
             send_whatsapp(OWNER_PHONE, mensagem)
@@ -90,7 +90,7 @@ def lambda_handler(event, context):
     data_hoje = datetime.now().strftime("%d/%m/%Y")
     
     for row in saldo_dia:
-        valor = utils.format_currency(row.get("Valor"))
+        valor = src.utils.format_currency(row.get("Valor"))
 
         mensagem = mensagem_saldo(data_hoje, valor)
         send_whatsapp(OWNER_PHONE, mensagem)
