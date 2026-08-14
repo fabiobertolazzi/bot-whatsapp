@@ -68,6 +68,7 @@ def lambda_handler(event, context):
     data_hoje = datetime.now().strftime("%d/%m/%Y")
     
     for row in data_finan:
+        data = row.get("Data")
         if data == data_hoje and row.get("Categoria") != "Aluguel":
             data = row.get("Data")
             id = row.get("ID")
