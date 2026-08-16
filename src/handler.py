@@ -100,6 +100,10 @@ def lambda_handler(event, context):
         valor = src.utils.format_currency(row.get("Valor"))
 
         mensagem = mensagem_saldo(data_hoje, valor)
+
+        print("MENSAGEM FINAL:", repr(mensagem))
+
+        
         send_whatsapp(OWNER_PHONE, mensagem)
         
         results.append({"Data": data})
