@@ -76,13 +76,12 @@ def lambda_handler(event, context):
             id = row.get("ID")
             categoria = row.get("Categoria")
             situacao = row.get("Situação")
-            #valor = src.utils.format_currency(row.get("Valor"))
-            valor = format_currency(row.get("Valor"))
+            valor = src.utils.format_currency(row.get("Valor"))
 
             mensagem = mensagem_vencimento_dia(data, id, categoria, situacao, valor)
             send_whatsapp(OWNER_PHONE, mensagem)
         
-        results.append({"Data": data})
+        results.append({"Data": data_hoje, "ID": row.get("ID"), "Categoria": row.get("Categoria"), "Situação": row.get("Situação"), "Valor":row.get("Valor")})
 
     # ── 5. Saldo do dia ──────────────────────────────────────────────────
     saldo_dia = get_sheet_records(SPREADSHEET_ID_FINAN,"Saldo")
@@ -91,9 +90,6 @@ def lambda_handler(event, context):
     data_hoje = datetime.now().strftime("%d/%m/%Y")
     
     for row in saldo_dia:
-        print('repr:', repr(row.get('Valor'))) 
-        print('type:', type(row.get('Valor'))) 
-        print('format:', src.utils.format_currency(row.get('Valor')))
         valor = src.utils.format_currency(row.get("Valor"))
 
         mensagem = mensagem_saldo(data_hoje, valor)
