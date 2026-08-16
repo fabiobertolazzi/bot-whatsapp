@@ -71,16 +71,13 @@ def lambda_handler(event, context):
     
     for row in data_finan:
         data = row.get("Data")
-        if data == data_hoje and (row.get("Categoria") != "Aluguel" or row.get("Categoria") != "Retirada"):
+        if data == data_hoje and row.get("Categoria") != "Aluguel" and row.get("Categoria") != "Retirada":
             data = row.get("Data")
             id = row.get("ID")
             categoria = row.get("Categoria")
             situacao = row.get("Situação")
-            print('repr:', repr(row.get('Valor'))) 
-            print('type:', type(row.get('Valor'))) 
-            print('format:', src.utils.format_currency(row.get('Valor')))
             #valor = src.utils.format_currency(row.get("Valor"))
-            valor = row.get("Valor")
+            valor = format_currency(row.get("Valor"))
 
             mensagem = mensagem_vencimento_dia(data, id, categoria, situacao, valor)
             send_whatsapp(OWNER_PHONE, mensagem)
@@ -100,14 +97,9 @@ def lambda_handler(event, context):
         valor = src.utils.format_currency(row.get("Valor"))
 
         mensagem = mensagem_saldo(data_hoje, valor)
-
-        print("MENSAGEM FINAL:", repr(mensagem))
-
-
         send_whatsapp(OWNER_PHONE, mensagem)
         
-        results.append({"Data": data})
-
+        results.append({"Data": data_hoje, "Valor": valor})
 
     return {
         "statusCode": 200,
