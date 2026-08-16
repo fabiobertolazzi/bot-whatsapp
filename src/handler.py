@@ -71,7 +71,7 @@ def lambda_handler(event, context):
     
     for row in data_finan:
         data = row.get("Data")
-        if data == data_hoje and row.get("Categoria") != "Aluguel":
+        if data == data_hoje and (row.get("Categoria") != "Aluguel" or row.get("Categoria") != "Retirada"):
             data = row.get("Data")
             id = row.get("ID")
             categoria = row.get("Categoria")
@@ -103,7 +103,7 @@ def lambda_handler(event, context):
 
         print("MENSAGEM FINAL:", repr(mensagem))
 
-        
+
         send_whatsapp(OWNER_PHONE, mensagem)
         
         results.append({"Data": data})

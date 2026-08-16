@@ -13,4 +13,9 @@ def format_currency(value) -> str:
 
     value = float(value)
 
-    return f"R$ {value:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    return (
+        f"R$ {value:,.2f}"
+        .replace(",", "X")
+        .replace(".", ",")
+        .replace("X", ".")
+    )

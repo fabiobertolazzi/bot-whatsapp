@@ -37,7 +37,7 @@ def get_sheet_records(spreadsheet_id: str, worksheet_name: str) -> list[dict]:
     spreadsheet = gc.open_by_key(spreadsheet_id)
     worksheet = spreadsheet.worksheet(worksheet_name)
 
-    return worksheet.get_all_records()
+    return worksheet.get_all_records(numericise_ignore=["all"])
 
 
 def format_phone(raw_phone: str) -> str:
