@@ -16,6 +16,7 @@ from src.sheets import format_phone, get_sheet_records, SPREADSHEET_ID_MOTORA, S
 from src.whatsapp import send_whatsapp
 
 
+
 def lambda_handler(event, context):
     """
     Ponto de entrada da Lambda.
