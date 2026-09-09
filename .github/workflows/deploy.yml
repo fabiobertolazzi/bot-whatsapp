@@ -55,6 +55,12 @@ jobs:
             --zip-file fileb://function.zip \
             --region sa-east-1
 
+      - name: Aguardar atualização da Lambda
+        run: |
+          aws lambda wait function-updated \
+          --function-name bot-whatsapp \
+          --region sa-east-1
+
       - name: Publicar nova versão
         id: publish
         run: |
