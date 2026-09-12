@@ -32,7 +32,7 @@ def lambda_handler(event, context):
 
     socios = get_sheet_records(
         SPREADSHEET_ID_SOCIOS,
-        "Plan1"
+        "Sheet1"
     )
 
     telefones = [
