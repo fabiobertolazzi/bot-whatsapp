@@ -2,7 +2,7 @@ import gspread
 
 from google.oauth2.service_account import Credentials
 
-from src.config import (GOOGLE_SCOPES, SPREADSHEET_ID_MOTORA, SPREADSHEET_ID_FINAN)
+from src.config import (GOOGLE_SCOPES, SPREADSHEET_ID_MOTORA, SPREADSHEET_ID_FINAN,SPREADSHEET_ID_SOCIOS)
 from src.secrets import get_secret
 
 
