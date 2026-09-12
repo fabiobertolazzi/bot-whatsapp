@@ -2,7 +2,6 @@ import json
 from datetime import datetime
 
 
-
 import src.utils
 
 from src.config import DIAS_SEMANA, OWNER_PHONE

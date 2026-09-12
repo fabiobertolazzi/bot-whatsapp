@@ -58,13 +58,11 @@ jobs:
             --function-name bot-whatsapp \
             --zip-file fileb://function.zip \
             --publish \
-            --description "Deploy DEV - $GITHUB_SHA" \
             --query 'Version' \
             --output text \
             --region sa-east-1)
 
           echo "Nova versão publicada: $VERSION"
-
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Atualizar alias DEV
