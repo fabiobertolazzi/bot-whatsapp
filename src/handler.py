@@ -1,7 +1,6 @@
 import json
 from datetime import datetime
 
-
 import src.utils
 
 from src.config import DIAS_SEMANA, OWNER_PHONE
@@ -12,10 +11,8 @@ from src.messages import (
     mensagem_vencimento_dia,
     mensagem_saldo
 )
-from src.sheets import format_phone, get_sheet_records, SPREADSHEET_ID_MOTORA, SPREADSHEET_ID_FINAN
+from src.sheets import format_phone, get_sheet_records, SPREADSHEET_ID_MOTORA, SPREADSHEET_ID_FINAN, SPREADSHEET_ID_SOCIOS
 from src.whatsapp import send_whatsapp
-
-
 
 def lambda_handler(event, context):
     """
@@ -33,9 +30,22 @@ def lambda_handler(event, context):
 
     enviou_algo = False
 
+    socios = get_sheet_records(
+        SPREADSHEET_ID_SOCIOS,
+        "Plan1"
+    )
+
+    telefones = [
+        row["Telefone"]
+        for row in socios
+        if row.get("Ativo") == "S"
+    ]
+
     # ── 1. Checklist de segunda-feira ────────────────────────────────────────
     if hoje == "segunda":
-        send_whatsapp(OWNER_PHONE, mensagem_checklist_segunda())
+        for telefone in telefones:
+            send_whatsapp(telefone, mensagem)
+        #send_whatsapp(OWNER_PHONE, mensagem_checklist_segunda())
         enviou_algo = True
 
     # ── 2. Cobranças do dia ──────────────────────────────────────────────────
@@ -50,14 +60,16 @@ def lambda_handler(event, context):
 
         nome = row.get("Nome")
         status = row.get("Status")
-        phone = format_phone(row.get("Telefone", ""))
+        #phone = format_phone(row.get("Telefone", ""))
         mensagem = mensagem_cobranca(nome)
 
         if status == "Ativo":
-            send_whatsapp(phone, mensagem)
+            for telefone in telefones:
+                send_whatsapp(telefone, mensagem)
+            #send_whatsapp(phone, mensagem)
             enviou_algo = True
 
-        results.append({"phone": phone, "nome": nome, "status": status})
+        results.append({"phone": telefone, "nome": nome, "status": status})
 
     # ── 3. Heartbeat (nenhum envio no dia) ───────────────────────────────────
     #if not enviou_algo:
@@ -81,7 +93,9 @@ def lambda_handler(event, context):
             valor = src.utils.format_currency(row.get("Valor"))
 
             mensagem = mensagem_vencimento_dia(data, id, categoria, situacao, valor)
-            send_whatsapp(OWNER_PHONE, mensagem)
+            for telefone in telefones:
+                send_whatsapp(telefone, mensagem)
+            #send_whatsapp(OWNER_PHONE, mensagem)
         
         results.append({"Data": data_hoje, "ID": row.get("ID"), "Categoria": row.get("Categoria"), "Situação": row.get("Situação"), "Valor":row.get("Valor")})
 
@@ -95,7 +109,9 @@ def lambda_handler(event, context):
         valor = src.utils.format_currency(row.get("Valor"))
 
         mensagem = mensagem_saldo(data_hoje, valor)
-        send_whatsapp(OWNER_PHONE, mensagem)
+        for telefone in telefones:
+            send_whatsapp(telefone, mensagem)
+        #send_whatsapp(OWNER_PHONE, mensagem)
         
         results.append({"Data": data_hoje, "Valor": valor})
 

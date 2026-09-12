@@ -12,6 +12,10 @@ SPREADSHEET_ID_FINAN = os.getenv(
     "SPREADSHEET_ID_FINAN", "1bdZTuGRvy3WYqCn-XW6Ad_ZWXOYl8QT-JgwPzx4RVac"
 )
 
+SPREADSHEET_ID_SOCIOS = os.getenv(
+    "SPREADSHEET_ID_SOCIOS", "10kc97lHrf1OpSAv4a6opyzKRmeiXukzz5XdoKG_XAmU"
+)
+
 GOOGLE_SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets"
 ]
