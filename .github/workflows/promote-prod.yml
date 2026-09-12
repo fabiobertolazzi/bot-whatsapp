@@ -1,3 +1,69 @@
+# name: Promote DEV to PROD
+
+# on:
+#   workflow_dispatch:
+
+# permissions:
+#   id-token: write
+#   contents: read
+
+# jobs:
+#   promote:
+#     runs-on: ubuntu-latest
+
+#     steps:
+
+#       - name: Configurar credenciais AWS
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           role-to-assume: arn:aws:iam::065560086735:role/GitHubActionsLambdaDeployRole
+#           aws-region: sa-east-1
+
+#       - name: Obter versão do DEV
+#         id: dev
+#         run: |
+#           VERSION=$(aws lambda get-alias \
+#             --function-name bot-whatsapp \
+#             --name dev \
+#             --query 'FunctionVersion' \
+#             --output text \
+#             --region sa-east-1)
+
+#           echo "================================="
+#           echo "Versão atualmente em DEV: $VERSION"
+#           echo "================================="
+
+#           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+#       - name: Mostrar versão atual de PROD
+#         run: |
+#           PROD_VERSION=$(aws lambda get-alias \
+#             --function-name bot-whatsapp \
+#             --name prod \
+#             --query 'FunctionVersion' \
+#             --output text \
+#             --region sa-east-1)
+
+#           echo "Versão atual de PROD: $PROD_VERSION"
+#           echo "Nova versão de PROD: ${{ steps.dev.outputs.version }}"
+
+#       - name: Promover DEV para PROD
+#         run: |
+#           aws lambda update-alias \
+#             --function-name bot-whatsapp \
+#             --name prod \
+#             --function-version ${{ steps.dev.outputs.version }} \
+#             --region sa-east-1
+
+#       - name: Confirmar PROD
+#         run: |
+#           aws lambda get-alias \
+#             --function-name bot-whatsapp \
+#             --name prod \
+#             --region sa-east-1
+
+
+
 name: Promote DEV to PROD
 
 on:
@@ -19,23 +85,22 @@ jobs:
           role-to-assume: arn:aws:iam::065560086735:role/GitHubActionsLambdaDeployRole
           aws-region: sa-east-1
 
-      - name: Obter versão do DEV
+      - name: Obter versão atual do DEV
         id: dev
         run: |
-          VERSION=$(aws lambda get-alias \
+          DEV_VERSION=$(aws lambda get-alias \
             --function-name bot-whatsapp \
             --name dev \
             --query 'FunctionVersion' \
             --output text \
             --region sa-east-1)
 
-          echo "================================="
-          echo "Versão atualmente em DEV: $VERSION"
-          echo "================================="
+          echo "Versão atual do DEV: $DEV_VERSION"
 
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "version=$DEV_VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Mostrar versão atual de PROD
+      - name: Obter versão atual do PROD
+        id: prod
         run: |
           PROD_VERSION=$(aws lambda get-alias \
             --function-name bot-whatsapp \
@@ -44,8 +109,20 @@ jobs:
             --output text \
             --region sa-east-1)
 
-          echo "Versão atual de PROD: $PROD_VERSION"
-          echo "Nova versão de PROD: ${{ steps.dev.outputs.version }}"
+          echo "Versão atual do PROD: $PROD_VERSION"
+
+          echo "version=$PROD_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Mostrar promoção
+        run: |
+          echo "=========================================="
+          echo "       PROMOÇÃO DEV → PROD"
+          echo "=========================================="
+          echo "DEV : versão ${{ steps.dev.outputs.version }}"
+          echo "PROD: versão ${{ steps.prod.outputs.version }}"
+          echo "=========================================="
+          echo "Promovendo versão ${{ steps.dev.outputs.version }} para PROD..."
+          echo "=========================================="
 
       - name: Promover DEV para PROD
         run: |
@@ -57,7 +134,15 @@ jobs:
 
       - name: Confirmar PROD
         run: |
-          aws lambda get-alias \
+          PROD_VERSION=$(aws lambda get-alias \
             --function-name bot-whatsapp \
             --name prod \
-            --region sa-east-1
+            --query 'FunctionVersion' \
+            --output text \
+            --region sa-east-1)
+
+          echo "=========================================="
+          echo "          PROMOÇÃO CONCLUÍDA"
+          echo "=========================================="
+          echo "PROD agora aponta para: versão $PROD_VERSION"
+          echo "=========================================="
