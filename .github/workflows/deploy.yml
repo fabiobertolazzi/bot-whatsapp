@@ -9,9 +9,12 @@ permissions:
   id-token: write
   contents: read
 
+concurrency:
+  group: deploy-lambda-dev
+  cancel-in-progress: false
+
 jobs:
   deploy:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -48,24 +51,13 @@ jobs:
           role-to-assume: arn:aws:iam::065560086735:role/GitHubActionsLambdaDeployRole
           aws-region: sa-east-1
 
-      - name: Atualizar código da Lambda
-        run: |
-          aws lambda update-function-code \
-            --function-name bot-whatsapp \
-            --zip-file fileb://function.zip \
-            --region sa-east-1
-
-      - name: Aguardar atualização da Lambda
-        run: |
-          aws lambda wait function-updated \
-          --function-name bot-whatsapp \
-          --region sa-east-1
-
-      - name: Publicar nova versão
+      - name: Atualizar código e publicar versão
         id: publish
         run: |
-          VERSION=$(aws lambda publish-version \
+          VERSION=$(aws lambda update-function-code \
             --function-name bot-whatsapp \
+            --zip-file fileb://function.zip \
+            --publish \
             --description "Deploy DEV - $GITHUB_SHA" \
             --query 'Version' \
             --output text \
@@ -81,4 +73,11 @@ jobs:
             --function-name bot-whatsapp \
             --name dev \
             --function-version ${{ steps.publish.outputs.version }} \
+            --region sa-east-1
+
+      - name: Confirmar DEV
+        run: |
+          aws lambda get-alias \
+            --function-name bot-whatsapp \
+            --name dev \
             --region sa-east-1
