@@ -41,13 +41,14 @@ def lambda_handler(event, context):
         if row.get("Ativo") == "S"
     ]
 
-    send_whatsapp_template(
-        OWNER_PHONE,
-        "bom_dia")
-    return {
-        "statusCode": 200,
-        "body": json.dumps({"dia": hoje, "processados": []}),
-    }
+    for telefone in telefones:
+        send_whatsapp_template(
+            OWNER_PHONE,
+            "bom_dia")
+        return {
+            "statusCode": 200,
+            "body": json.dumps({"dia": hoje, "processados": []}),
+        }
 
     # ── 1. Checklist de segunda-feira ────────────────────────────────────────
     if hoje == "segunda":
