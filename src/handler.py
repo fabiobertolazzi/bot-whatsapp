@@ -12,7 +12,7 @@ from src.messages import (
     mensagem_saldo
 )
 from src.sheets import format_phone, get_sheet_records, SPREADSHEET_ID_MOTORA, SPREADSHEET_ID_FINAN, SPREADSHEET_ID_SOCIOS
-from src.whatsapp import send_whatsapp
+from src.whatsapp import send_whatsapp , send_whatsapp_template
 
 def lambda_handler(event, context):
     """
@@ -40,6 +40,14 @@ def lambda_handler(event, context):
         for row in socios
         if row.get("Ativo") == "S"
     ]
+
+    send_whatsapp_template(
+        OWNER_PHONE,
+        "bom_dia")
+    return {
+        "statusCode": 200,
+        "body": json.dumps({"dia": hoje, "processados": []}),
+    }
 
     # ── 1. Checklist de segunda-feira ────────────────────────────────────────
     if hoje == "segunda":
