@@ -43,7 +43,7 @@ def lambda_handler(event, context):
 
     for telefone in telefones:
         send_whatsapp_template(
-            OWNER_PHONE,
+            telefone,
             "bom_dia")
     return {
         "statusCode": 200,
