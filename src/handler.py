@@ -45,10 +45,10 @@ def lambda_handler(event, context):
         send_whatsapp_template(
             OWNER_PHONE,
             "bom_dia")
-        return {
-            "statusCode": 200,
-            "body": json.dumps({"dia": hoje, "processados": []}),
-        }
+    return {
+        "statusCode": 200,
+        "body": json.dumps({"dia": hoje, "processados": []}),
+    }
 
     # ── 1. Checklist de segunda-feira ────────────────────────────────────────
     if hoje == "segunda":
